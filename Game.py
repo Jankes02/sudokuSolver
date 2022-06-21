@@ -1,6 +1,7 @@
 ALL_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 WIDTH = 9
 HEIGHT = 9
+input_file = "C:\\Users\\janke\\Desktop\\template3.txt"
 
 
 def intersection_of_sets(a, b, c):
@@ -22,13 +23,18 @@ def determine_square(x, y):
 
 class Game:
     solved = False
+    board = []
 
     def __init__(self):
-        self.board = []
+        file = open(input_file, 'r')
+        read_input = file.read()
+        read_input = iter(read_input.split())
+        file.close()
+
         for i in range(HEIGHT):
             self.board.append([])
             for j in range(WIDTH):
-                self.board.append(int(input()))
+                self.board[i].append(int(next(read_input)))
 
     def print(self):
         for row in self.board:
@@ -38,6 +44,7 @@ class Game:
 
     def solve(self):
         while not self.solved:
+            change = False
             for i in range(HEIGHT):
                 possible_in_row = self.check_row(i)
                 for j in range(WIDTH):
@@ -46,10 +53,21 @@ class Game:
                         possible_in_square = self.check_square(i, j)
                         possible = intersection_of_sets(possible_in_row, possible_in_column, possible_in_square)
                         if len(possible) == 1:
+                            change = True
                             self.board[i][j] = possible[0]
                             possible_in_row.remove(possible[0])
+                            if not self.there_is_zero():
+                                self.solved = True
+            if not change:
+                print("FAILED")
+                break
 
-
+    def there_is_zero(self):
+        for row in self.board:
+            for number in row:
+                if number == 0:
+                    return True
+        return False
 
     def check_row(self, row):
         result = ALL_NUMBERS[:]
@@ -69,7 +87,7 @@ class Game:
 
     def check_square(self, row, column):
         result = ALL_NUMBERS[:]
-        xTable, yTable = determine_square(row, column)
+        xTable, yTable = determine_square(column, row)
         for x in xTable:
             for y in yTable:
                 if self.board[y][x] in result:
