@@ -1,8 +1,6 @@
 from Game import *
 
-ALL_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+game = Game()
 
-width = int(input("Width: "))
-height = int(input("Height: "))
-
-game = Game(width, height)
+game.solve()
+game.print()
