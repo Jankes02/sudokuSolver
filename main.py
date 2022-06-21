@@ -1,6 +1,4 @@
 from Game import *
-
 game = Game()
-
-game.solve()
-game.print()
+game.solve_trivial()
+game.solve_r()
