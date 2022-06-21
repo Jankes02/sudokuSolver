@@ -1,5 +1,5 @@
 # sudokuSolver
-# Input
+## Input
 takes a text file as input (**REMEMBER: change file directory in Game.py, line 7**)
 input numbers following the format below:
 
@@ -14,7 +14,7 @@ input numbers following the format below:
 0 0 4 0 0 7 0 0 0
 
 where 0 is an empty field
-# Output
+## Output
 prints solved sudoku board and time elapsed in seconds as output
-# PS.
+## PS.
 might add graphical interface in the future
