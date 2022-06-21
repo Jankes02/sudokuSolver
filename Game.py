@@ -1,15 +1,9 @@
+import time
+
 ALL_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 WIDTH = 9
 HEIGHT = 9
-input_file = "C:\\Users\\janke\\Desktop\\template3.txt"
-
-
-def intersection_of_sets(a, b, c):
-    result = []
-    for element in a:
-        if element in b and element in c:
-            result.append(element)
-    return result
+input_file = "C:\\Users\\janke\\Desktop\\template5.txt"
 
 
 def determine_square(x, y):
@@ -35,6 +29,7 @@ class Game:
             self.board.append([])
             for j in range(WIDTH):
                 self.board[i].append(int(next(read_input)))
+        self.start = time.time()
 
     def print(self):
         for row in self.board:
@@ -42,25 +37,39 @@ class Game:
                 print(number, end=' ')
             print()
 
-    def solve(self):
+    def solve_trivial(self):
         while not self.solved:
             change = False
             for i in range(HEIGHT):
-                possible_in_row = self.check_row(i)
                 for j in range(WIDTH):
                     if self.board[i][j] == 0:
-                        possible_in_column = self.check_column(j)
-                        possible_in_square = self.check_square(i, j)
-                        possible = intersection_of_sets(possible_in_row, possible_in_column, possible_in_square)
+                        possible = []
+                        for number in ALL_NUMBERS:
+                            if self.possible(i, j, number):
+                                possible.append(number)
                         if len(possible) == 1:
                             change = True
                             self.board[i][j] = possible[0]
-                            possible_in_row.remove(possible[0])
                             if not self.there_is_zero():
                                 self.solved = True
             if not change:
-                print("FAILED")
-                break
+                self.solve_r()
+
+    def solve_r(self):
+        for y in range(HEIGHT):
+            for x in range(WIDTH):
+                if self.board[y][x] == 0:
+                    for n in ALL_NUMBERS:
+                        if self.possible(y, x, n):
+                            self.board[y][x] = n
+                            self.solve_r()
+                            self.board[y][x] = 0
+                    return
+        self.print()
+        end = time.time()
+        print(round(end - self.start, 3), end=' ')
+        print("seconds elapsed")
+        exit()
 
     def there_is_zero(self):
         for row in self.board:
@@ -69,27 +78,16 @@ class Game:
                     return True
         return False
 
-    def check_row(self, row):
-        result = ALL_NUMBERS[:]
-        for number in self.board[row]:
-            if number in result:
-                result.remove(number)
-
-        return result
-
-    def check_column(self, column):
-        result = ALL_NUMBERS[:]
-        for row in self.board:
-            if row[column] in result:
-                result.remove(row[column])
-
-        return result
-
-    def check_square(self, row, column):
-        result = ALL_NUMBERS[:]
-        xTable, yTable = determine_square(column, row)
-        for x in xTable:
-            for y in yTable:
-                if self.board[y][x] in result:
-                    result.remove(self.board[y][x])
-        return result
+    def possible(self, y, x, n):
+        for i in range(WIDTH):
+            if self.board[y][i] == n:
+                return False
+        for i in range(HEIGHT):
+            if self.board[i][x] == n:
+                return False
+        xTable, yTable = determine_square(x, y)
+        for row in yTable:
+            for column in xTable:
+                if self.board[row][column] == n:
+                    return False
+        return True
