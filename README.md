@@ -16,3 +16,5 @@ input numbers following the format below:
 where 0 is an empty field
 # Output
 prints solved sudoku board and time elapsed in seconds as output
+# PS.
+might add graphical interface in the future
