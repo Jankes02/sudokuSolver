@@ -1,3 +1,4 @@
+import copy
 import time
 
 ALL_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -53,7 +54,7 @@ class Game:
                             if not self.there_is_zero():
                                 self.solved = True
             if not change:
-                self.solve_r()
+                return
 
     def solve_r(self):
         for y in range(HEIGHT):
@@ -61,13 +62,15 @@ class Game:
                 if self.board[y][x] == 0:
                     for n in ALL_NUMBERS:
                         if self.possible(y, x, n):
+                            board_copy = copy.deepcopy(self.board)
                             self.board[y][x] = n
+                            self.solve_trivial()
                             self.solve_r()
-                            self.board[y][x] = 0
+                            self.board = board_copy
                     return
         self.print()
         end = time.time()
-        print(round(end - self.start, 3), end=' ')
+        print(end - self.start, end=' ')
         print("seconds elapsed")
         exit()
 
