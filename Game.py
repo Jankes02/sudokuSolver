@@ -4,7 +4,7 @@ import time
 ALL_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 WIDTH = 9
 HEIGHT = 9
-input_file = "C:\\Users\\janke\\Desktop\\template5.txt"
+input_file = "template.txt"
 
 
 def determine_square(x, y):
