@@ -17,4 +17,4 @@ where 0 is an empty field
 ## Output
 prints solved sudoku board and time elapsed in seconds as output
 ## PS.
-might add graphical interface in the future
+might add GUI in the future
