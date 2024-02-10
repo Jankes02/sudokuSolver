@@ -1,20 +1,10 @@
 # sudokuSolver
-## Input
-takes a text file as input (**REMEMBER: change file directory in Game.py, line 7**)
-input numbers following the format below:
+## Description
+Simple app designed to solve every sudoku instance possible. Based on its difficulty level, solving might take from 0.025s to ~0.2s.
+Algorithm was coded in Python, as well as the GUI (using Tkinter)
 
-1 7 0 0 0 2 0 0 5<br/>
-4 0 0 0 0 0 0 0 0<br/>
-0 0 0 0 8 0 0 2 0<br/>
-2 5 0 0 0 8 0 0 1<br/>
-0 0 0 3 0 0 6 0 0<br/>
-0 0 9 0 0 0 0 0 0<br/>
-7 9 0 0 6 0 1 0 0<br/>
-0 0 8 0 0 0 0 0 9<br/>
-0 0 4 0 0 7 0 0 0
+### Before
+![image](https://github.com/Jankes02/sudokuSolver/assets/106553376/02d86ce3-70f7-419e-a697-5417c4dd3e46)
 
-where 0 is an empty field
-## Output
-prints solved sudoku board and time elapsed in seconds as output
-## PS.
-might add GUI in the future
+### After
+![image](https://github.com/Jankes02/sudokuSolver/assets/106553376/cab44b85-4279-41b3-9688-3365c6193510)
