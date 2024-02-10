@@ -1,5 +1,9 @@
 import tkinter as tk
-GRID_SIZE = 9
+import time
+from functions import *
+
+entries = [[None] * GRID_SIZE for _ in range(GRID_SIZE)]
+output_text = None
 
 
 def validate_input(char):
@@ -7,10 +11,25 @@ def validate_input(char):
 
 
 def solve():
-    pass
+    global entries, output_text
+    board = grid_to_list(entries)
+    clear()
+    start = time.time()
+    solve_trivial(board)
+    board = solve_r(board)
+    end = time.time()
+    insert_list_into_grid(board, entries)
+    output_text.delete('1.0', 'end')
+    output_text.insert('1.0', f'Sudoku solved! \n{round(end - start, 3)}s elapsed')
+
+
+def clear():
+    global entries
+    [[entry.delete(0, 'end') for entry in row] for row in entries]
 
 
 def create_window():
+    global output_text
     root = tk.Tk()
     root.title("Sudoku Solver")
 
@@ -26,9 +45,8 @@ def create_window():
             group_frames[i][j] = tk.Frame(grid_frame)
             group_frames[i][j].grid(row=i, column=j, padx=3, pady=3)
         
-    entries = [[None] * 9 for _ in range(9)]
-    for i in range(9):
-        for j in range(9):
+    for i in range(GRID_SIZE):
+        for j in range(GRID_SIZE):
             group_row = i // 3
             group_col = j // 3
             group_frame = group_frames[group_row][group_col]
@@ -39,7 +57,7 @@ def create_window():
     buttons_frame.grid(row=0, column=0, pady=30)
     solve_button = tk.Button(buttons_frame, width=15, height=2, text='Solve', command=solve)
     solve_button.grid(row=0, column=0, padx=10)
-    clear_button = tk.Button(buttons_frame, width=15, height=2, text='Clear', command=lambda: [[entry.delete(0, 'end') for entry in row] for row in entries])
+    clear_button = tk.Button(buttons_frame, width=15, height=2, text='Clear', command=clear)
     clear_button.grid(row=0, column=1, padx=10)
 
     output_text = tk.Text(info_frame, height=2, width=30)
